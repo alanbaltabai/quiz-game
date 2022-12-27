@@ -8,26 +8,17 @@ export default function Test(props) {
 			.replace(/&eacute;/g, 'é')
 			.replace(/&Uuml;/g, 'Ü')
 			.replace(/&shy;/g, '-')
-			.replace(/&Delta;/g, 'Δ');
+			.replace(/&Delta;/g, 'Δ')
+			.replace(/&amp;/g, '&');
 	}
 
-	function shuffle(array) {
-		for (let i = 0; i < array.length; i++) {
-			const j = Math.floor(Math.random() * array.length);
-			const temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-		}
-
-		return array;
-	}
-
-	const optionDivs = shuffle(props.options).map((item) => (
+	const optionDivs = props.options.map((item) => (
 		<Option
 			key={crypto.randomUUID()}
-			isheld={false}
 			holdOption={props.holdOption}
-			value={item}
+			option={item.option}
+			isHeld={item.isHeld}
+			correctivity={item.correctivity}
 		/>
 	));
 

@@ -7,9 +7,8 @@ function App() {
 		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
 			.then((response) => response.json())
 			.then((testData) => {
-				test = testData.results;
-				setUpdatedTest(
-					test.map((item) => {
+				setTest(
+					testData.results.map((item) => {
 						const corAnswer = {
 							option: item.correct_answer,
 							correctivity: true,
@@ -26,7 +25,7 @@ function App() {
 						}
 
 						answers.push(corAnswer);
-						item.options = answers;
+						item.options = shuffle(answers);
 
 						delete item.category;
 						delete item.difficulty;
@@ -37,32 +36,43 @@ function App() {
 						return item;
 					})
 				);
-
-				console.log(test);
 			});
 	}, []);
 
-	function holdOption(value) {
-		console.log(value);
+	function shuffle(array) {
+		for (let i = 0; i < array.length; i++) {
+			const j = Math.floor(Math.random() * array.length);
+			const temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
 
-		/* setTest((prevTest) =>
-			prevTest.map((item) =>
-				item.id === id ? { ...item, isHeld: !item.isHeld } : item
-			)
-		); */
+		return array;
+	}
 
-		tes;
+	function holdOption(option) {
+		console.log(option);
+
+		setTest((prevTest) =>
+			prevTest.map((obj) => ({
+				...obj,
+				options: obj.options.map((item) =>
+					item.option === option ? { ...item, isHeld: !item.isHeld } : item
+				),
+			}))
+		);
+
+		console.log(test);
 	}
 
 	const [startQuiz, setStartQuiz] = useState(true);
-	let test;
-	const [updatedTest, setUpdatedTest] = useState([]);
+	const [test, setTest] = useState([]);
 
-	const testDivs = updatedTest.map((item) => (
+	const testDivs = test.map((item) => (
 		<Test
 			key={crypto.randomUUID()}
 			question={item.question}
-			// options={[...item.incorrect_answers, item.correct_answer]}
+			options={item.options}
 			holdOption={holdOption}
 		/>
 	));
@@ -85,13 +95,8 @@ function App() {
 				</div>
 			) : (
 				<div className='quiz'>
-					{/* <div className='questions'>{testDivs}</div> */}
-					<button
-						onClick={() => console.log(test)}
-						className='button button-check-answers'
-					>
-						Check answers
-					</button>
+					<div className='questions'>{testDivs}</div>
+					<button className='button button-check-answers'>Check answers</button>
 				</div>
 			)}
 		</div>

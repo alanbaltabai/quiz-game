@@ -6,15 +6,16 @@ export default function Option(props) {
 			.replace(/&eacute;/g, 'é')
 			.replace(/&Uuml;/g, 'Ü')
 			.replace(/&shy;/g, '-')
-			.replace(/&Delta;/g, 'Δ');
+			.replace(/&Delta;/g, 'Δ')
+			.replace(/&amp;/g, '&');
 	}
 
 	return (
 		<div
 			className={props.isHeld ? 'option held' : 'option'}
-			onClick={() => props.holdOption(props.value)}
+			onClick={() => props.holdOption(props.option)}
 		>
-			<p>{cleanseString(props.value)}</p>
+			<p>{cleanseString(props.option)}</p>
 		</div>
 	);
 }
