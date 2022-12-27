@@ -6,7 +6,40 @@ function App() {
 	useEffect(() => {
 		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
 			.then((response) => response.json())
-			.then((testData) => setTest(testData.results));
+			.then((testData) => {
+				test = testData.results;
+				setUpdatedTest(
+					test.map((item) => {
+						const corAnswer = {
+							option: item.correct_answer,
+							correctivity: true,
+							isHeld: false,
+						};
+
+						let answers = [];
+						for (let i = 0; i < item.incorrect_answers.length; i++) {
+							answers.push({
+								option: item.incorrect_answers[i],
+								correctivity: false,
+								isHeld: false,
+							});
+						}
+
+						answers.push(corAnswer);
+						item.options = answers;
+
+						delete item.category;
+						delete item.difficulty;
+						delete item.type;
+						delete item.correct_answer;
+						delete item.incorrect_answers;
+
+						return item;
+					})
+				);
+
+				console.log(test);
+			});
 	}, []);
 
 	function holdOption(value) {
@@ -22,13 +55,14 @@ function App() {
 	}
 
 	const [startQuiz, setStartQuiz] = useState(true);
-	const [test, setTest] = useState([]);
+	let test;
+	const [updatedTest, setUpdatedTest] = useState([]);
 
-	const testDivs = test.map((item) => (
+	const testDivs = updatedTest.map((item) => (
 		<Test
 			key={crypto.randomUUID()}
 			question={item.question}
-			options={[...item.incorrect_answers, item.correct_answer]}
+			// options={[...item.incorrect_answers, item.correct_answer]}
 			holdOption={holdOption}
 		/>
 	));
@@ -51,7 +85,7 @@ function App() {
 				</div>
 			) : (
 				<div className='quiz'>
-					<div className='questions'>{testDivs}</div>
+					{/* <div className='questions'>{testDivs}</div> */}
 					<button
 						onClick={() => console.log(test)}
 						className='button button-check-answers'
