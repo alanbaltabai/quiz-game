@@ -122,27 +122,33 @@ button {
 	margin-block-start: 1.5em;
 }
 
-.option {
-	cursor: pointer;
-
-	border: 0.0625em solid #4d5b9e;
-	border-radius: 1em;
-
-	padding: 0.3em 0.7em;
-}
-
 .option + .option {
 	margin-inline-start: 3em;
 }
 
-.held {
+.option input[type='radio']:checked + label {
+	border: 0.0625em solid #d6dbf5;
+
 	background-color: #d6dbf5;
 
-	border: none;
+	transition: all 0.25s ease-in-out;
 }
 
-.option p {
+.option input[type='radio'] {
+	display: none;
+}
+
+.option label {
+	cursor: pointer;
+
+	display: block;
+
+	border: 0.0625em solid #4d5b9e;
+	border-radius: 1em;
+
 	color: #293264;
+
+	padding: 0.3em 0.7em;
 }
 
 .button-check-answers {

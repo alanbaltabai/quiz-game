@@ -9,16 +9,18 @@ export default function Test(props) {
 			.replace(/&Uuml;/g, 'Ü')
 			.replace(/&shy;/g, '-')
 			.replace(/&Delta;/g, 'Δ')
-			.replace(/&amp;/g, '&');
+			.replace(/&amp;/g, '&')
+			.replace(/&rsquo;/g, '`');
 	}
 
 	const optionDivs = props.options.map((item) => (
 		<Option
 			key={crypto.randomUUID()}
-			holdOption={props.holdOption}
+			handleChange={props.handleChange}
+			radioData={props.radioData}
 			option={item.option}
-			isHeld={item.isHeld}
 			correctivity={item.correctivity}
+			question={cleanseString(props.question)}
 		/>
 	));
 

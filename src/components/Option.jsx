@@ -7,15 +7,23 @@ export default function Option(props) {
 			.replace(/&Uuml;/g, 'Ü')
 			.replace(/&shy;/g, '-')
 			.replace(/&Delta;/g, 'Δ')
-			.replace(/&amp;/g, '&');
+			.replace(/&amp;/g, '&')
+			.replace(/&rsquo;/g, '`');
 	}
 
 	return (
-		<div
-			className={props.isHeld ? 'option held' : 'option'}
-			onClick={() => props.holdOption(props.option)}
-		>
-			<p>{cleanseString(props.option)}</p>
+		<div className='option'>
+			<input
+				type='radio'
+				name='radioOption'
+				id={cleanseString(props.option)}
+				value={cleanseString(props.option)}
+				checked={props.radioData.radioOption === cleanseString(props.option)}
+				onChange={props.handleChange}
+			/>
+			<label htmlFor={cleanseString(props.option)}>
+				{cleanseString(props.option)}
+			</label>
 		</div>
 	);
 }

@@ -11,20 +11,19 @@ function App() {
 					testData.results.map((item) => {
 						const corAnswer = {
 							option: item.correct_answer,
-							correctivity: true,
-							isHeld: false,
+							isCorrect: true,
 						};
 
 						let answers = [];
 						for (let i = 0; i < item.incorrect_answers.length; i++) {
 							answers.push({
 								option: item.incorrect_answers[i],
-								correctivity: false,
-								isHeld: false,
+								isCorrect: false,
 							});
 						}
 
 						answers.push(corAnswer);
+
 						item.options = shuffle(answers);
 
 						delete item.category;
@@ -50,32 +49,30 @@ function App() {
 		return array;
 	}
 
-	function holdOption(option) {
-		console.log(option);
-
-		setTest((prevTest) =>
-			prevTest.map((obj) => ({
-				...obj,
-				options: obj.options.map((item) =>
-					item.option === option ? { ...item, isHeld: !item.isHeld } : item
-				),
-			}))
-		);
-
-		console.log(test);
+	function handleChange(event) {
+		const { name, value } = event.target;
+		setRadioData((prevRadioData) => ({
+			...prevRadioData,
+			[name]: value,
+		}));
 	}
 
+	const [radioData, setRadioData] = useState({
+		radioOption: '',
+	});
 	const [startQuiz, setStartQuiz] = useState(true);
 	const [test, setTest] = useState([]);
-
 	const testDivs = test.map((item) => (
 		<Test
 			key={crypto.randomUUID()}
 			question={item.question}
 			options={item.options}
-			holdOption={holdOption}
+			handleChange={handleChange}
+			radioData={radioData}
 		/>
 	));
+
+	console.log(radioData.radioOption);
 
 	return (
 		<div className={startQuiz ? 'container grid-center' : 'container'}>
