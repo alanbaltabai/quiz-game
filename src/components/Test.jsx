@@ -18,6 +18,7 @@ export default function Test(props) {
 			key={crypto.randomUUID()}
 			handleChange={props.handleChange}
 			radioData={props.radioData}
+			radioNumber={props.radioNumber}
 			option={item.option}
 			correctivity={item.correctivity}
 			question={cleanseString(props.question)}

@@ -15,10 +15,13 @@ export default function Option(props) {
 		<div className='option'>
 			<input
 				type='radio'
-				name='radioOption'
+				name={`radioOption` + props.radioNumber}
 				id={cleanseString(props.option)}
 				value={cleanseString(props.option)}
-				checked={props.radioData.radioOption === cleanseString(props.option)}
+				checked={
+					props.radioData['radioOption' + props.radioNumber] ===
+					cleanseString(props.option)
+				}
 				onChange={props.handleChange}
 			/>
 			<label htmlFor={cleanseString(props.option)}>

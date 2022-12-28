@@ -58,21 +58,26 @@ function App() {
 	}
 
 	const [radioData, setRadioData] = useState({
-		radioOption: '',
+		radioOption1: '',
+		radioOption2: '',
+		radioOption3: '',
+		radioOption4: '',
+		radioOption5: '',
 	});
 	const [startQuiz, setStartQuiz] = useState(true);
 	const [test, setTest] = useState([]);
-	const testDivs = test.map((item) => (
+	const testDivs = test.map((item, i) => (
 		<Test
 			key={crypto.randomUUID()}
 			question={item.question}
 			options={item.options}
 			handleChange={handleChange}
 			radioData={radioData}
+			radioNumber={i}
 		/>
 	));
 
-	console.log(radioData.radioOption);
+	console.log(radioData);
 
 	return (
 		<div className={startQuiz ? 'container grid-center' : 'container'}>
