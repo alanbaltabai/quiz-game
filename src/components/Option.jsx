@@ -43,7 +43,6 @@ export default function Option(props) {
 						props.radioValue
 					}
 					disabled
-					isCorrect={props.isCorrect}
 					onChange={props.handleChange}
 				/>
 			) : (
@@ -56,7 +55,6 @@ export default function Option(props) {
 						props.radioData['radioOption' + props.radioNumber] ===
 						props.radioValue
 					}
-					isCorrect={props.isCorrect}
 					onChange={props.handleChange}
 				/>
 			)}

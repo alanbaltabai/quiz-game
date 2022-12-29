@@ -79,6 +79,45 @@ export default function App() {
 		} */
 	}
 
+	function playAgain() {
+		setGameOver(false);
+
+		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
+			.then((response) => response.json())
+			.then((testData) => {
+				setTest(
+					testData.results.map((item) => {
+						const corAnswer = {
+							option: item.correct_answer,
+							isCorrect: true,
+							id: crypto.randomUUID(),
+						};
+
+						let answers = [];
+						for (let i = 0; i < item.incorrect_answers.length; i++) {
+							answers.push({
+								option: item.incorrect_answers[i],
+								isCorrect: false,
+								id: crypto.randomUUID(),
+							});
+						}
+
+						answers.push(corAnswer);
+
+						item.options = shuffle(answers);
+
+						delete item.category;
+						delete item.difficulty;
+						delete item.type;
+						delete item.correct_answer;
+						delete item.incorrect_answers;
+
+						return item;
+					})
+				);
+			});
+	}
+
 	const [radioData, setRadioData] = useState({
 		radioOption1: '',
 		radioOption2: '',
@@ -103,9 +142,7 @@ export default function App() {
 		/>
 	));
 
-	/* useEffect(() => {
-		console.log(radioData);
-	}, [gameOver]); */
+	console.log(test);
 
 	return (
 		<div className={!isQuiz ? 'container grid-center' : 'container'}>
@@ -130,7 +167,10 @@ export default function App() {
 						)}
 
 						{gameOver ? (
-							<button className='button button-check-answers button-play-again'>
+							<button
+								className='button button-check-answers button-play-again'
+								onClick={playAgain}
+							>
 								Play again
 							</button>
 						) : (
