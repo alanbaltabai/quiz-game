@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Test from './components/Test';
+import closeIcon from './assets/close-icon.png';
 
 function App() {
 	useEffect(() => {
@@ -12,6 +13,7 @@ function App() {
 						const corAnswer = {
 							option: item.correct_answer,
 							isCorrect: true,
+							id: crypto.randomUUID(),
 						};
 
 						let answers = [];
@@ -19,6 +21,7 @@ function App() {
 							answers.push({
 								option: item.incorrect_answers[i],
 								isCorrect: false,
+								id: crypto.randomUUID(),
 							});
 						}
 
@@ -49,12 +52,22 @@ function App() {
 		return array;
 	}
 
+	function startQuiz() {
+		setIsQuiz(true);
+	}
+
 	function handleChange(event) {
 		const { name, value } = event.target;
 		setRadioData((prevRadioData) => ({
 			...prevRadioData,
 			[name]: value,
 		}));
+	}
+
+	function checkAnswers() {
+		console.log('Pressed!');
+
+		setGameOver(true);
 	}
 
 	const [radioData, setRadioData] = useState({
@@ -64,7 +77,8 @@ function App() {
 		radioOption4: '',
 		radioOption5: '',
 	});
-	const [startQuiz, setStartQuiz] = useState(true);
+	const [isQuiz, setIsQuiz] = useState(false);
+	const [gameOver, setGameOver] = useState(false);
 	const [test, setTest] = useState([]);
 	const testDivs = test.map((item, i) => (
 		<Test
@@ -73,32 +87,49 @@ function App() {
 			options={item.options}
 			handleChange={handleChange}
 			radioData={radioData}
-			radioNumber={i}
+			radioNumber={i + 1}
 		/>
 	));
 
-	console.log(radioData);
+	console.log(test);
 
 	return (
-		<div className={startQuiz ? 'container grid-center' : 'container'}>
+		<div className={!isQuiz ? 'container grid-center' : 'container'}>
 			<div className='blob-yellow'></div>
 			<div className='blob-lightblue'></div>
 
-			{startQuiz ? (
+			{!isQuiz ? (
 				<div className='intro'>
 					<h1 className='intro__title'>Quizzical</h1>
 					<p className='intro__desc'>Check your knowledge of this and that!</p>
-					<button
-						onClick={() => setStartQuiz(false)}
-						className='button intro__button'
-					>
+					<button onClick={startQuiz} className='button intro__button'>
 						Start quiz
 					</button>
 				</div>
 			) : (
 				<div className='quiz'>
 					<div className='questions'>{testDivs}</div>
-					<button className='button button-check-answers'>Check answers</button>
+
+					<div className='below-questions'>
+						{gameOver && (
+							<p className='question'>You scored {3}/5 correct answers</p>
+						)}
+
+						{gameOver ? (
+							<button className='button button-check-answers button-play-again'>
+								Play again
+							</button>
+						) : (
+							<button
+								onClick={checkAnswers}
+								className='button button-check-answers'
+							>
+								Check answers
+							</button>
+						)}
+
+						<img className='close-icon' src={closeIcon} alt='close icon' />
+					</div>
 				</div>
 			)}
 		</div>

@@ -151,6 +151,13 @@ button {
 	padding: 0.3em 0.7em;
 }
 
+.below-questions {
+	display: flex;
+	align-items: center;
+
+	margin-block-start: 2em;
+}
+
 .button-check-answers {
 	display: block;
 
@@ -159,6 +166,16 @@ button {
 	padding: 1em 2em;
 
 	margin-inline: auto;
+}
 
-	margin-block-start: 2em;
+.button-play-again {
+	margin-inline-start: 3em;
+	margin-inline-end: auto;
+}
+
+.close-icon {
+	cursor: pointer;
+
+	width: 2em;
+	height: 2em;
 }
