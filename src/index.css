@@ -130,8 +130,6 @@ button {
 	border: 0.0625em solid #d6dbf5;
 
 	background-color: #d6dbf5;
-
-	transition: all 0.25s ease-in-out;
 }
 
 .option input[type='radio'] {

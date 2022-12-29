@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Test from './components/Test';
 import closeIcon from './assets/close-icon.png';
 
-function App() {
+export default function App() {
 	useEffect(() => {
 		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
 			.then((response) => response.json())
@@ -65,9 +65,18 @@ function App() {
 	}
 
 	function checkAnswers() {
-		console.log('Pressed!');
-
 		setGameOver(true);
+
+		console.log(test);
+
+		/* if (score === 0) {
+			setTest((prevTest) =>
+				prevTest.map((object) => ({
+					...object,
+					options: object.map((item) => item),
+				}))
+			);
+		} */
 	}
 
 	const [radioData, setRadioData] = useState({
@@ -79,19 +88,24 @@ function App() {
 	});
 	const [isQuiz, setIsQuiz] = useState(false);
 	const [gameOver, setGameOver] = useState(false);
+	const [score, setScore] = useState(0);
 	const [test, setTest] = useState([]);
 	const testDivs = test.map((item, i) => (
 		<Test
 			key={crypto.randomUUID()}
 			question={item.question}
 			options={item.options}
+			isCorrect={item.isCorrect}
 			handleChange={handleChange}
 			radioData={radioData}
 			radioNumber={i + 1}
+			gameOver={gameOver}
 		/>
 	));
 
-	console.log(test);
+	/* useEffect(() => {
+		console.log(radioData);
+	}, [gameOver]); */
 
 	return (
 		<div className={!isQuiz ? 'container grid-center' : 'container'}>
@@ -112,7 +126,7 @@ function App() {
 
 					<div className='below-questions'>
 						{gameOver && (
-							<p className='question'>You scored {3}/5 correct answers</p>
+							<p className='question'>You scored {score}/5 correct answers</p>
 						)}
 
 						{gameOver ? (
@@ -135,5 +149,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;

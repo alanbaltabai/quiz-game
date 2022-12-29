@@ -11,7 +11,10 @@ export default function Test(props) {
 			.replace(/&Delta;/g, 'Δ')
 			.replace(/&amp;/g, '&')
 			.replace(/&rsquo;/g, '`')
-			.replace(/&lrm;/g, '');
+			.replace(/&lrm;/g, '')
+			.replace(/&hellip;/g, '…')
+			.replace(/&rdquo;/g, '”')
+			.replace(/&ldquo;/g, '“');
 	}
 
 	const optionDivs = props.options.map((item) => (
@@ -22,7 +25,8 @@ export default function Test(props) {
 			radioNumber={props.radioNumber}
 			radioValue={item.id}
 			option={item.option}
-			correctivity={item.correctivity}
+			isCorrect={item.isCorrect}
+			gameOver={props.gameOver}
 		/>
 	));
 
