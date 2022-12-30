@@ -58,6 +58,7 @@ export default function App() {
 
 	function endQuiz() {
 		setIsQuiz(false);
+		setGameOver(false);
 
 		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
 			.then((response) => response.json())
