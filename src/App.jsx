@@ -56,6 +56,45 @@ export default function App() {
 		setIsQuiz(true);
 	}
 
+	function endQuiz() {
+		setIsQuiz(false);
+
+		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
+			.then((response) => response.json())
+			.then((testData) => {
+				setTest(
+					testData.results.map((item) => {
+						const corAnswer = {
+							option: item.correct_answer,
+							isCorrect: true,
+							id: crypto.randomUUID(),
+						};
+
+						let answers = [];
+						for (let i = 0; i < item.incorrect_answers.length; i++) {
+							answers.push({
+								option: item.incorrect_answers[i],
+								isCorrect: false,
+								id: crypto.randomUUID(),
+							});
+						}
+
+						answers.push(corAnswer);
+
+						item.options = shuffle(answers);
+
+						delete item.category;
+						delete item.difficulty;
+						delete item.type;
+						delete item.correct_answer;
+						delete item.incorrect_answers;
+
+						return item;
+					})
+				);
+			});
+	}
+
 	function handleChange(event) {
 		const { name, value } = event.target;
 		setRadioData((prevRadioData) => ({
@@ -66,8 +105,6 @@ export default function App() {
 
 	function checkAnswers() {
 		setGameOver(true);
-
-		console.log(test);
 
 		/* if (score === 0) {
 			setTest((prevTest) =>
@@ -142,7 +179,7 @@ export default function App() {
 		/>
 	));
 
-	console.log(test);
+	console.log(radioData);
 
 	return (
 		<div className={!isQuiz ? 'container grid-center' : 'container'}>
@@ -182,7 +219,12 @@ export default function App() {
 							</button>
 						)}
 
-						<img className='close-icon' src={closeIcon} alt='close icon' />
+						<img
+							className='close-icon'
+							onClick={endQuiz}
+							src={closeIcon}
+							alt='close icon'
+						/>
 					</div>
 				</div>
 			)}
