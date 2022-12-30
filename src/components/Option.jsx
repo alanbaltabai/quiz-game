@@ -12,60 +12,59 @@ export default function Option(props) {
 			.replace(/&lrm;/g, '')
 			.replace(/&hellip;/g, '…')
 			.replace(/&rdquo;/g, '”')
-			.replace(/&ldquo;/g, '“');
+			.replace(/&ldquo;/g, '“')
+			.replace(/&oacute;/g, 'ó');
 	}
 
 	function transform() {
-		if (props.gameOver) {
-			if (props.isCorrect) 'correct';
-			if (!props.isCorrect && isChecked) return 'incorrect';
+		const isChecked = props.checkedIds.includes(props.radioValue);
 
-			return 'gray';
-		}
-	}
+		if (props.isCorrect) return 'correct-label';
+		if (isChecked && !props.isCorrect) return 'incorrect-label';
 
-	/* let checkedIds = [];
-	for (const key in props.radioData) {
-		checkedIds.push(radioData[key]);
+		return 'gray-label';
 	}
-	const isChecked = checkedIds.every((item) => props.radioValue === item.id); */
 
 	return (
-		<div className='option'>
+		<>
 			{props.gameOver ? (
-				<input
-					type='radio'
-					name={`radioOption` + props.radioNumber}
-					id={cleanseString(props.option)}
-					value={props.radioValue}
-					checked={
-						props.radioData['radioOption' + props.radioNumber] ===
-						props.radioValue
-					}
-					disabled
-					onChange={props.handleChange}
-				/>
+				<div className='option'>
+					<input
+						disabled
+						type='radio'
+						name={`radioOption` + props.radioNumber}
+						id={props.radioValue}
+						value={props.radioValue}
+						checked={
+							props.radioData['radioOption' + props.radioNumber] ===
+							props.radioValue
+						}
+						onChange={props.handleChange}
+					/>
+					<label className={transform()} htmlFor={props.radioValue}>
+						{cleanseString(props.option)}
+					</label>
+				</div>
 			) : (
-				<input
-					type='radio'
-					name={`radioOption` + props.radioNumber}
-					id={cleanseString(props.option)}
-					value={props.radioValue}
-					checked={
-						props.radioData['radioOption' + props.radioNumber] ===
-						props.radioValue
-					}
-					onChange={props.handleChange}
-				/>
+				<div className='option'>
+					<input
+						type='radio'
+						name={`radioOption` + props.radioNumber}
+						id={props.radioValue}
+						value={props.radioValue}
+						checked={
+							props.radioData['radioOption' + props.radioNumber] ===
+							props.radioValue
+						}
+						onChange={props.handleChange}
+					/>
+					<label className='in-game-label' htmlFor={props.radioValue}>
+						{cleanseString(props.option)}
+					</label>
+				</div>
 			)}
 
-			{
-				<label
-					/* className={transform()} */ htmlFor={cleanseString(props.option)}
-				>
-					{cleanseString(props.option)}
-				</label>
-			}
-		</div>
+			{}
+		</>
 	);
 }

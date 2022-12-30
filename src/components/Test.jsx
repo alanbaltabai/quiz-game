@@ -14,7 +14,8 @@ export default function Test(props) {
 			.replace(/&lrm;/g, '')
 			.replace(/&hellip;/g, '…')
 			.replace(/&rdquo;/g, '”')
-			.replace(/&ldquo;/g, '“');
+			.replace(/&ldquo;/g, '“')
+			.replace(/&oacute;/g, 'ó');
 	}
 
 	const optionDivs = props.options.map((item) => (
@@ -27,6 +28,7 @@ export default function Test(props) {
 			option={item.option}
 			isCorrect={item.isCorrect}
 			gameOver={props.gameOver}
+			checkedIds={props.checkedIds}
 		/>
 	));
 

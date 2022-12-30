@@ -23,6 +23,20 @@ button {
 	border-radius: 1em;
 }
 
+label {
+	cursor: pointer;
+
+	display: block;
+
+	padding: 0.3em 0.7em;
+
+	border-radius: 1em;
+}
+
+input[type='radio'] {
+	display: none;
+}
+
 .container {
 	height: 100vh;
 }
@@ -126,27 +140,32 @@ button {
 	margin-inline-start: 3em;
 }
 
-.option input[type='radio']:checked + label {
+input[type='radio']:checked + .in-game-label {
 	border: 0.0625em solid #d6dbf5;
 
 	background-color: #d6dbf5;
 }
 
-.option input[type='radio'] {
-	display: none;
-}
-
-.option label {
-	cursor: pointer;
-
-	display: block;
-
+.in-game-label {
 	border: 0.0625em solid #4d5b9e;
-	border-radius: 1em;
 
 	color: #293264;
+}
 
-	padding: 0.3em 0.7em;
+.gray-label {
+	border: 0.0625em solid #a1a9cd;
+
+	color: #8f95b0;
+}
+
+.correct-label {
+	background-color: #94d7a2;
+}
+
+.incorrect-label {
+	background-color: #f6dadc;
+
+	color: #8f95b0;
 }
 
 .below-questions {

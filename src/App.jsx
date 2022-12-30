@@ -106,15 +106,6 @@ export default function App() {
 
 	function checkAnswers() {
 		setGameOver(true);
-
-		/* if (score === 0) {
-			setTest((prevTest) =>
-				prevTest.map((object) => ({
-					...object,
-					options: object.map((item) => item),
-				}))
-			);
-		} */
 	}
 
 	function playAgain() {
@@ -156,6 +147,15 @@ export default function App() {
 			});
 	}
 
+	function groupChecked() {
+		let checkedIds = [];
+		for (const key in radioData) {
+			checkedIds.push(radioData[key]);
+		}
+
+		return checkedIds;
+	}
+
 	const [radioData, setRadioData] = useState({
 		radioOption1: '',
 		radioOption2: '',
@@ -175,12 +175,11 @@ export default function App() {
 			isCorrect={item.isCorrect}
 			handleChange={handleChange}
 			radioData={radioData}
+			checkedIds={groupChecked()}
 			radioNumber={i + 1}
 			gameOver={gameOver}
 		/>
 	));
-
-	console.log(radioData);
 
 	return (
 		<div className={!isQuiz ? 'container grid-center' : 'container'}>
