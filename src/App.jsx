@@ -52,10 +52,6 @@ export default function App() {
 		return array;
 	}
 
-	function startQuiz() {
-		setIsQuiz(true);
-	}
-
 	function endQuiz() {
 		setIsQuiz(false);
 		setGameOver(false);
@@ -106,6 +102,23 @@ export default function App() {
 
 	function checkAnswers() {
 		setGameOver(true);
+
+		const arrayOfChecked = groupChecked().filter((item) => item !== '');
+
+		let arrayOfTrues = [];
+		const someArray = test.map((obj) => obj.options);
+		for (let i = 0; i < someArray.length; i++) {
+			for (let j = 0; j < someArray[i].length; j++) {
+				if (someArray[i][j].isCorrect) arrayOfTrues.push(someArray[i][j].id);
+			}
+		}
+
+		let count = 0;
+		for (let i = 0; i < arrayOfTrues.length; i++) {
+			if (arrayOfTrues[i] === arrayOfChecked[i]) count++;
+		}
+
+		setScore(count);
 	}
 
 	function playAgain() {
@@ -173,11 +186,12 @@ export default function App() {
 			question={item.question}
 			options={item.options}
 			isCorrect={item.isCorrect}
-			handleChange={handleChange}
-			radioData={radioData}
-			checkedIds={groupChecked()}
 			radioNumber={i + 1}
+			radioData={radioData}
 			gameOver={gameOver}
+			score={score}
+			handleChange={handleChange}
+			checkedIds={groupChecked()}
 		/>
 	));
 
@@ -190,7 +204,10 @@ export default function App() {
 				<div className='intro'>
 					<h1 className='intro__title'>Quizzical</h1>
 					<p className='intro__desc'>Check your knowledge of this and that!</p>
-					<button onClick={startQuiz} className='button intro__button'>
+					<button
+						onClick={() => setIsQuiz(true)}
+						className='button intro__button'
+					>
 						Start quiz
 					</button>
 				</div>

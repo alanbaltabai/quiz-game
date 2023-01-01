@@ -24,11 +24,12 @@ export default function Test(props) {
 			handleChange={props.handleChange}
 			radioData={props.radioData}
 			radioNumber={props.radioNumber}
+			gameOver={props.gameOver}
+			checkedIds={props.checkedIds}
+			score={props.score}
 			radioValue={item.id}
 			option={item.option}
 			isCorrect={item.isCorrect}
-			gameOver={props.gameOver}
-			checkedIds={props.checkedIds}
 		/>
 	));
 

@@ -19,10 +19,14 @@ export default function Option(props) {
 	function transform() {
 		const isChecked = props.checkedIds.includes(props.radioValue);
 
-		if (props.isCorrect) return 'correct-label';
-		if (isChecked && !props.isCorrect) return 'incorrect-label';
-
-		return 'gray-label';
+		if (props.score === 0) {
+			if (props.isCorrect) return 'incorrect-label';
+			return 'gray-label';
+		} else {
+			if (props.isCorrect) return 'correct-label';
+			if (isChecked && !props.isCorrect) return 'incorrect-label';
+			return 'gray-label';
+		}
 	}
 
 	return (
