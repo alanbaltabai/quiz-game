@@ -6,6 +6,6 @@ Stack: React
 
 Questions are taken from: https://opentdb.com
 
-To run:
-• npm install
+To run: <br>
+• npm install <br>
 • npm run dev
