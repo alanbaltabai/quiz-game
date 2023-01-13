@@ -30,6 +30,7 @@ export default function Test(props) {
 			radioValue={item.id}
 			option={item.option}
 			isCorrect={item.isCorrect}
+			cleanseString={cleanseString}
 		/>
 	));
 
