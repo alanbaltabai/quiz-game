@@ -4,6 +4,8 @@ import Test from './components/Test';
 import closeIcon from './assets/close-icon.png';
 
 export default function App() {
+	const [gameOver, setGameOver] = useState(false);
+
 	useEffect(() => {
 		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
 			.then((response) => response.json())
@@ -39,7 +41,7 @@ export default function App() {
 					})
 				);
 			});
-	}, []);
+	}, [setGameOver]);
 
 	function shuffle(array) {
 		for (let i = 0; i < array.length; i++) {
@@ -177,7 +179,6 @@ export default function App() {
 		radioOption5: '',
 	});
 	const [isQuiz, setIsQuiz] = useState(false);
-	const [gameOver, setGameOver] = useState(false);
 	const [score, setScore] = useState(0);
 	const [test, setTest] = useState([]);
 	const testDivs = test.map((item, i) => (

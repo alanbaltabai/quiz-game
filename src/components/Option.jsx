@@ -50,8 +50,6 @@ export default function Option(props) {
 					</label>
 				</div>
 			)}
-
-			{}
 		</>
 	);
 }
