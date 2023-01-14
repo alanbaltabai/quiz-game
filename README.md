@@ -1,6 +1,6 @@
 Quiz in React.
 
-Link: https://alanbaltabay-quiz-game.netlify.app
+Link: https://alanbaltabay-react-quiz.netlify.app
 
 Stack: React
 
