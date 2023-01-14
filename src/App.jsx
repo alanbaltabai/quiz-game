@@ -4,44 +4,54 @@ import Test from './components/Test';
 import closeIcon from './assets/close-icon.png';
 
 export default function App() {
-	const [gameOver, setGameOver] = useState(false);
-
 	useEffect(() => {
-		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
-			.then((response) => response.json())
-			.then((testData) => {
-				setTest(
-					testData.results.map((item) => {
-						const corAnswer = {
-							option: item.correct_answer,
-							isCorrect: true,
-							id: crypto.randomUUID(),
-						};
+		fetchData();
+	}, []);
 
-						let answers = [];
-						for (let i = 0; i < item.incorrect_answers.length; i++) {
-							answers.push({
-								option: item.incorrect_answers[i],
-								isCorrect: false,
-								id: crypto.randomUUID(),
-							});
-						}
+	function fetchData() {
+		setTimeout(
+			() =>
+				fetch(
+					'https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple'
+				)
+					.then((response) => response.json())
+					.then((testData) => {
+						setTest(
+							testData.results.map((item) => {
+								const corAnswer = {
+									option: item.correct_answer,
+									isCorrect: true,
+									id: crypto.randomUUID(),
+								};
 
-						answers.push(corAnswer);
+								let answers = [];
+								for (let i = 0; i < item.incorrect_answers.length; i++) {
+									answers.push({
+										option: item.incorrect_answers[i],
+										isCorrect: false,
+										id: crypto.randomUUID(),
+									});
+								}
 
-						item.options = shuffle(answers);
+								answers.push(corAnswer);
 
-						delete item.category;
-						delete item.difficulty;
-						delete item.type;
-						delete item.correct_answer;
-						delete item.incorrect_answers;
+								item.options = shuffle(answers);
 
-						return item;
-					})
-				);
-			});
-	}, [setGameOver]);
+								delete item.category;
+								delete item.difficulty;
+								delete item.type;
+								delete item.correct_answer;
+								delete item.incorrect_answers;
+
+								return item;
+							})
+						);
+						setGameOver(false);
+						setLoading(false);
+					}),
+			1300
+		);
+	}
 
 	function shuffle(array) {
 		for (let i = 0; i < array.length; i++) {
@@ -56,42 +66,7 @@ export default function App() {
 
 	function endQuiz() {
 		setIsQuiz(false);
-		setGameOver(false);
-
-		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
-			.then((response) => response.json())
-			.then((testData) => {
-				setTest(
-					testData.results.map((item) => {
-						const corAnswer = {
-							option: item.correct_answer,
-							isCorrect: true,
-							id: crypto.randomUUID(),
-						};
-
-						let answers = [];
-						for (let i = 0; i < item.incorrect_answers.length; i++) {
-							answers.push({
-								option: item.incorrect_answers[i],
-								isCorrect: false,
-								id: crypto.randomUUID(),
-							});
-						}
-
-						answers.push(corAnswer);
-
-						item.options = shuffle(answers);
-
-						delete item.category;
-						delete item.difficulty;
-						delete item.type;
-						delete item.correct_answer;
-						delete item.incorrect_answers;
-
-						return item;
-					})
-				);
-			});
+		setGameOver(true);
 	}
 
 	function handleChange(event) {
@@ -124,42 +99,8 @@ export default function App() {
 	}
 
 	function playAgain() {
-		setGameOver(false);
-
-		fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
-			.then((response) => response.json())
-			.then((testData) => {
-				setTest(
-					testData.results.map((item) => {
-						const corAnswer = {
-							option: item.correct_answer,
-							isCorrect: true,
-							id: crypto.randomUUID(),
-						};
-
-						let answers = [];
-						for (let i = 0; i < item.incorrect_answers.length; i++) {
-							answers.push({
-								option: item.incorrect_answers[i],
-								isCorrect: false,
-								id: crypto.randomUUID(),
-							});
-						}
-
-						answers.push(corAnswer);
-
-						item.options = shuffle(answers);
-
-						delete item.category;
-						delete item.difficulty;
-						delete item.type;
-						delete item.correct_answer;
-						delete item.incorrect_answers;
-
-						return item;
-					})
-				);
-			});
+		setLoading(true);
+		fetchData();
 	}
 
 	function groupChecked() {
@@ -171,6 +112,11 @@ export default function App() {
 		return checkedIds;
 	}
 
+	const [isQuiz, setIsQuiz] = useState(false);
+	const [gameOver, setGameOver] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [score, setScore] = useState(0);
+	const [test, setTest] = useState([]);
 	const [radioData, setRadioData] = useState({
 		radioOption1: '',
 		radioOption2: '',
@@ -178,9 +124,6 @@ export default function App() {
 		radioOption4: '',
 		radioOption5: '',
 	});
-	const [isQuiz, setIsQuiz] = useState(false);
-	const [score, setScore] = useState(0);
-	const [test, setTest] = useState([]);
 	const testDivs = test.map((item, i) => (
 		<Test
 			key={crypto.randomUUID()}
@@ -195,6 +138,8 @@ export default function App() {
 			checkedIds={groupChecked()}
 		/>
 	));
+
+	console.log(loading);
 
 	return (
 		<div className={!isQuiz ? 'container grid-center' : 'container'}>
@@ -214,36 +159,49 @@ export default function App() {
 				</div>
 			) : (
 				<div className='quiz'>
-					<div className='questions'>{testDivs}</div>
+					{loading ? (
+						<div className='spinner-box'>
+							<div className='configure-border configure-border-1'>
+								<div className='configure-core'></div>
+							</div>
+							<div className='configure-border configure-border-2'>
+								<div className='configure-core'></div>
+							</div>
+						</div>
+					) : (
+						<div className='questions'>{testDivs}</div>
+					)}
 
-					<div className='below-questions'>
-						{gameOver && (
-							<p className='question'>You scored {score}/5 correct answers</p>
-						)}
+					{!loading && (
+						<div className='below-questions'>
+							{gameOver && (
+								<p className='question'>You scored {score}/5 correct answers</p>
+							)}
 
-						{gameOver ? (
-							<button
-								className='button button-check-answers button-play-again'
-								onClick={playAgain}
-							>
-								Play again
-							</button>
-						) : (
-							<button
-								onClick={checkAnswers}
-								className='button button-check-answers'
-							>
-								Check answers
-							</button>
-						)}
+							{gameOver ? (
+								<button
+									className='button button-check-answers button-play-again'
+									onClick={playAgain}
+								>
+									Play again
+								</button>
+							) : (
+								<button
+									onClick={checkAnswers}
+									className='button button-check-answers'
+								>
+									Check answers
+								</button>
+							)}
 
-						<img
-							className='close-icon'
-							onClick={endQuiz}
-							src={closeIcon}
-							alt='close icon'
-						/>
-					</div>
+							<img
+								className='close-icon'
+								onClick={endQuiz}
+								src={closeIcon}
+								alt='close icon'
+							/>
+						</div>
+					)}
 				</div>
 			)}
 		</div>

@@ -119,6 +119,97 @@ input[type='radio'] {
 	padding: 2em;
 }
 
+.spinner-box {
+	background-color: transparent;
+
+	width: 10.75em;
+
+	height: 10.75em;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.configure-core {
+	width: 100%;
+
+	height: 100%;
+
+	background-color: #293264;
+}
+
+.configure-border {
+	width: 6.25em;
+
+	height: 6.25em;
+
+	padding: 0.21875em;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.configure-border-1 {
+	background-color: yellow;
+
+	position: absolute;
+
+	animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-border-2 {
+	background-color: rgb(0, 153, 255);
+
+	left: -115px;
+
+	transform: rotate(45deg);
+
+	animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+}
+
+@keyframes configure-clockwise {
+	0% {
+		transform: rotate(0);
+	}
+	25% {
+		transform: rotate(90deg);
+	}
+	50% {
+		transform: rotate(180deg);
+	}
+	75% {
+		transform: rotate(270deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes configure-xclockwise {
+	0% {
+		transform: rotate(45deg);
+	}
+	25% {
+		transform: rotate(-45deg);
+	}
+	50% {
+		transform: rotate(-135deg);
+	}
+	75% {
+		transform: rotate(-225deg);
+	}
+	100% {
+		transform: rotate(-315deg);
+	}
+}
+
 .question-container + .question-container {
 	margin-block-start: 1em;
 }

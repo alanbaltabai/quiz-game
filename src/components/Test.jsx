@@ -3,10 +3,12 @@ import Option from './Option';
 export default function Test(props) {
 	function cleanseString(str) {
 		return str
-			.replace(/&quot;/g, '"')
 			.replace(/&#039;/g, "'")
+			.replace(/&quot;/g, '"')
 			.replace(/&eacute;/g, 'é')
+			.replace(/&Eacute;/g, 'É')
 			.replace(/&Uuml;/g, 'Ü')
+			.replace(/&uuml;/g, 'ü')
 			.replace(/&shy;/g, '-')
 			.replace(/&Delta;/g, 'Δ')
 			.replace(/&amp;/g, '&')
@@ -15,7 +17,11 @@ export default function Test(props) {
 			.replace(/&hellip;/g, '…')
 			.replace(/&rdquo;/g, '”')
 			.replace(/&ldquo;/g, '“')
-			.replace(/&oacute;/g, 'ó');
+			.replace(/&oacute;/g, 'ó')
+			.replace(/&aacute;/g, 'á')
+			.replace(/&iacute;/g, 'í')
+			.replace(/&ntilde;/g, 'ñ')
+			.replace(/&ouml;/g, 'ö');
 	}
 
 	const optionDivs = props.options.map((item) => (
