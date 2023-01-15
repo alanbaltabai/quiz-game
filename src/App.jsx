@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import Test from './components/Test';
 import closeIcon from './assets/close-icon.png';
+import SpinnerBox from './components/SpinnerBox';
 
 export default function App() {
 	useEffect(() => {
@@ -160,14 +161,7 @@ export default function App() {
 			) : (
 				<div className='quiz'>
 					{loading ? (
-						<div className='spinner-box'>
-							<div className='configure-border configure-border-1'>
-								<div className='configure-core'></div>
-							</div>
-							<div className='configure-border configure-border-2'>
-								<div className='configure-core'></div>
-							</div>
-						</div>
+						<SpinnerBox />
 					) : (
 						<div className='questions'>{testDivs}</div>
 					)}
