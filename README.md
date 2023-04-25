@@ -15,7 +15,9 @@ Link to the website: <a href="https://alanbaltabay-react-quiz.netlify.app">link<
 Questions are taken from: <a href="https://opentdb.com">Open Trivia DB</a>
 
 ## Design
-Design in Figma: <a href="https://www.figma.com/file/X8TYRlTNznfcTjjftgyeuU/Quizzical-App-(Copy)?node-id=0-1&t=llOxm2pYemM2rmnh-0">link to design</a>
+Design in Figma: <a href="https://www.figma.com/file/X8TYRlTNznfcTjjftgyeuU/Quizzical-App-(Copy)?node-id=0-1&t=llOxm2pYemM2rmnh-0">link to design</a> <br>
+![image](https://user-images.githubusercontent.com/55524522/234267894-efdd821e-4e76-4804-947b-1627352a5368.png)
+
 
 ## Technologies
 - JavaScript (fetch API) <br>
